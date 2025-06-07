@@ -1,3 +1,21 @@
+<?php
+
+require "dbBroker.php";
+require "model/user.php";
+
+if (isset($_POST['username']) && isset($_POST['password'])) {
+    $u = $_POST['username'];
+    $p = $_POST['password'];
+    $user = new User(1, $u, $p);
+    $result = $user->loginUser($user, $conn);
+    if ($result->num_rows > 0) {
+        header('Location: home.php');
+        exit;
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
