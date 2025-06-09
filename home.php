@@ -1,5 +1,8 @@
 <?php
 
+require "dbBroker.php";
+require "model/prijava.php";
+
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
@@ -12,6 +15,10 @@ if (isset($_POST['submit']) && $_POST['submit'] == 'log_out') {
     header('Location: index.php');
     exit();
 }
+
+$result = Prijava::readAll($conn);
+
+
 
 ?>
 
@@ -60,24 +67,27 @@ if (isset($_POST['submit']) && $_POST['submit'] == 'log_out') {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php while ($red = $result->fetch_array()) { ?>
+                            <?php if ($result->num_rows > 0) {
+                                while ($red = $result->fetch_array()) { ?>
+                                    <tr>
+                                        <td><?php echo $red["predmet"] ?></td>
+                                        <td><?php echo $red["katedra"] ?></td>
+                                        <td><?php echo $red["sala"] ?></td>
+                                        <td><?php echo $red["datum"] ?></td>
+                                        <td>
+                                            <label class="custom-radio-btn">
+                                                <input type="radio" name="id_predmeta" value="<?php echo $red['id']; ?>">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                <?php }
+                            } else { ?>
+
                                 <tr>
-                                    <td><?php echo $red["predmet"] ?></td>
-                                    <td><?php echo $red["katedra"] ?></td>
-                                    <td><?php echo $red["sala"] ?></td>
-                                    <td><?php echo $red["datum"] ?></td>
-                                    <td>
-                                        <label class="custom-radio-btn">
-                                            <input type="radio" name="id_predmeta" value="<?php echo $red['id']; ?>">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </td>
+                                    <td colspan="5" class="text-center">Nema unetih kolokvijuma</td>
                                 </tr>
                             <?php } ?>
-                            ?>
-                            <tr>
-                                <td colspan="5" class="text-center">Nema unetih kolokvijuma</td>
-                            </tr>
                         </tbody>
                     </table>
 
