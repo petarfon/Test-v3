@@ -15,7 +15,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         $_SESSION['user_id'] = $row['id'];
         header('Location: home.php');
         //echo $_SESSION['user_id'];
-        exit;
+        exit();
     }
 }
 
