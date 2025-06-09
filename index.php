@@ -3,13 +3,18 @@
 require "dbBroker.php";
 require "model/user.php";
 
+session_start();
+
 if (isset($_POST['username']) && isset($_POST['password'])) {
     $u = $_POST['username'];
     $p = $_POST['password'];
     $user = new User(1, $u, $p);
     $result = $user->loginUser($user, $conn);
     if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $_SESSION['user_id'] = $row['id'];
         header('Location: home.php');
+        //echo $_SESSION['user_id'];
         exit;
     }
 }
