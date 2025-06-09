@@ -18,6 +18,11 @@ if (isset($_POST['submit']) && $_POST['submit'] == 'log_out') {
 
 $result = Prijava::readAll($conn);
 
+if (isset($_POST['submit']) && $_POST['submit'] == 'Obrisi') {
+    $p = new Prijava($_POST['id_predmeta']);
+    $r = $p->deleteById($_POST['id_predmeta'], $conn);
+}
+
 
 
 ?>
