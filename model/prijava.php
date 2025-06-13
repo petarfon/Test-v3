@@ -38,5 +38,24 @@ class Prijava
     public function readOne(int $id, mysqli $conn)
     {
         $q = "SELECT * FROM prijave WHERE id=$id";
+        return $conn->query($q);
+    }
+
+    // public function updatePrijava(mysqli $conn, Prijava $p)
+    // {
+    //     $q = "UPDATE prijave SET predmet='$p->predmet', katedra='$p->katedra', sala='$p->sala', datum='$p->datum' WHERE id=$p->id";
+    //     return $conn->query($q);
+    // }
+
+    public function updatePrijava(mysqli $conn, Prijava $p)
+    {
+        $q = "UPDATE prijave SET predmet = ?, katedra = ?, sala = ?, datum = ? WHERE id = ?";
+        $stmt = $conn->prepare($q);
+        if (!$stmt) {
+            throw new Exception("Prepare failed: " . $conn->error);
+        }
+
+        $stmt->bind_param("ssssi", $p->predmet, $p->katedra, $p->sala, $p->datum, $p->id);
+        return $stmt->execute();
     }
 }
