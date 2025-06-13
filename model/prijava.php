@@ -28,4 +28,15 @@ class Prijava
         $q = "DELETE FROM prijave WHERE id=$id";
         return $conn->query($q);
     }
+
+    public function addPrijava(mysqli $conn, Prijava $p)
+    {
+        $q = "INSERT INTO prijave (predmet, katedra, sala, datum) VALUES ('$p->predmet', '$p->katedra', '$p->sala', '$p->datum')";
+        return $conn->query($q);
+    }
+
+    public function readOne(int $id, mysqli $conn)
+    {
+        $q = "SELECT * FROM prijave WHERE id=$id";
+    }
 }
